@@ -104,6 +104,51 @@ public class RecordCollection{
         }
     }
 
+    public void Seek(byte date, int month,ushort year, List<string> characters, List<string> tags, List<string> extensions, bool nsfw){
+        //Descent Seek.
+        List<Record> query = new List<Record>(Records);
+        //
+        if(date != 255){
+            query = query.Where(x => x.Day == date).ToList();
+        }
+        if(month != 255){
+            query = query.Where(x => x.Month == (Month) month).ToList();
+        }
+        if(year != 255){
+            query = query.Where(x => x.Year == year).ToList();
+        }
+        if(characters.Count != 0){
+            foreach(string character in characters){
+                query = query.Where(x => x.Characters.Contains(character)).ToList();
+            }
+        }
+
+        if(tags.Count != 0){
+            foreach(string tag in tags){
+                query= query.Where(x => x.Tags.Contains(tag)).ToList();
+            }
+        }
+
+        if(extensions.Count != 0){
+            //skip
+        }
+        if(nsfw)
+        {
+            query = query.Where(x => x.Tags.Contains("NSFW")).ToList();
+            //skip
+        }
+        else{
+            query = query.Where(x => !x.Tags.Contains("NSFW")).ToList();
+        }
+
+        Console.WriteLine("--------------------------------");
+        Console.WriteLine($"Found {query.Count} entries.");
+        foreach(Record r in query){
+            Console.WriteLine($"{r.ToString()}");
+        }
+        Console.WriteLine("--------------------------------");
+    }
+
     public void AddRecord(Record record){
         Records.Add(record);
     }
