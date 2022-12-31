@@ -104,6 +104,9 @@ public class VaultManager{
                         newRecord.Year = (ushort) parseInt;
                     }
                 }
+                else{
+                    continue;
+                }
                 if(verbose){
                     Console.WriteLine("Who are the characters in this piece? Separate them with colons.");
                     response = Console.ReadLine();
@@ -118,16 +121,17 @@ public class VaultManager{
                         newRecord.Tags.Add(tag.Trim().ToLower());
                     }
                     newRecord.Path = file;
-                    newRecord.Title = sections[0];
+                    newRecord.Title = sections[1].Trim('\\');
                     Records.AddRecord(newRecord);
                 }
                 else{
                     newRecord.Path = file;
-                    newRecord.Title = sections[0];
+                    newRecord.Title = sections[1].Trim('\\');
                     Records.AddRecord(newRecord);
                 }
             }
         }
+        Console.WriteLine("---------------------------------------------");
         Console.WriteLine("No new files.");
     }
 

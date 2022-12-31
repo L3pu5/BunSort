@@ -15,6 +15,10 @@ namespace BunSort
                 userInput = Console.ReadLine();
                 Console.WriteLine($"--> {userInput}");
                 string[] command = userInput.Split(' ');
+                if(command[0] == "seek"){
+                    
+                }
+
                 if(command.Length == 2){
                     switch(command[0]){
                         case "read":
@@ -23,13 +27,31 @@ namespace BunSort
                             }
                             break;
                         case "add":
-                            if(command[1] == "records"){
-                                Vault.Records.AddRecord(new Record(9,9,9));
-                            }
+                            break;
+                        case "find":
+                            break;
+                        case "char":
+                            Vault.Records.SeekCharacter(command[1]);
                             break;
                         case "dump":
                             if(command[1] == "extensions" || command[1] == "exts" || command[1] == "ext"){
                                 Vault.DumpExtensions();
+                                break;
+                            }
+                            if(command[1] == "records")
+                                Vault.Records.dump();
+                            break;
+                        case "_":
+                            break;
+                    }
+                }
+
+                if(command.Length == 3){
+                    switch(command[0]){
+                        case "read":
+                            if(command[1] == "." || command[1] == "*" || command[1] == "all"){
+                                if(command[2] == "v" || command[2] == "-v")
+                                    Vault.AddAll(true);
                             }
                             break;
                         case "_":
@@ -37,19 +59,12 @@ namespace BunSort
                     }
                 }
 
-                if(userInput == "read records"){
-                    Vault.Records.dump();
-                }
-
                 if(userInput == "write"){
                     Vault.writeVault();
                 }
 
-                if(userInput == "read"){
-                    Vault.readVault();
-                }
-
                 if(userInput == "quit" || userInput == "exit"){
+                    Vault.writeVault();
                     Console.WriteLine("> Goodbye!");
                     return;
                 }
